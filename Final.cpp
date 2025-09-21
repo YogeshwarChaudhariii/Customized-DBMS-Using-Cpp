@@ -1,9 +1,21 @@
-#include <iostream>
-#include <fstream>
-#include <list>
-#include <string>
+////////////////////////////////////////////////////////////////////////
+// Project Name: Customized DBMS Using C++.
+// Author: Yogeshwar Prakash Chaudhari.
+// File Name: Final.cpp
+////////////////////////////////////////////////////////////////////////
+
+#include<iostream>
+#include<fstream>
+#include<list>
+#include<string>
 using namespace std;
 
+////////////////////////////////////////////////////////////////////////
+//
+// Class : Employee
+// Description : Handles employees data
+//
+////////////////////////////////////////////////////////////////////////
 class Employee
 {
 public:
@@ -15,8 +27,20 @@ public:
 
     static int Counter;
 
-    Employee() {} // default constructor
+////////////////////////////////////////////////////////////////////////
+//
+// Default Constructor : Employee
+// Description : Handles static void counter
+//
+////////////////////////////////////////////////////////////////////////   
+    Employee() {} 
 
+////////////////////////////////////////////////////////////////////////
+//
+// Paramerized Constructor : Employee
+// Description : Handles employee data
+//
+////////////////////////////////////////////////////////////////////////  
     Employee(string b, int c, string d, int e)
     {
         EmpId = Counter++;
@@ -26,12 +50,23 @@ public:
         EmpSalary = e;
     }
 
+////////////////////////////////////////////////////////////////////////
+//
+// static counter 
+// Description : Add Id of employees
+//
+////////////////////////////////////////////////////////////////////////   
     static void init()
     {
         Counter = 1;
     }
 
-    // Write to file
+////////////////////////////////////////////////////////////////////////
+//
+// Function :  WriteBackup
+// Description : Write backup in binary file (config.dat)
+//
+//////////////////////////////////////////////////////////////////////// 
     void WriteBackup(ofstream &out)
     {
         out.write((char*)&EmpId, sizeof(EmpId));
@@ -49,7 +84,12 @@ public:
         out.write((char*)&EmpSalary, sizeof(EmpSalary));
     }
 
-    // Read from file
+////////////////////////////////////////////////////////////////////////
+//
+// Function :  ReadBackup
+// Description : Read backup in binary file (config.dat)
+//
+//////////////////////////////////////////////////////////////////////// 
     void ReadBackup(ifstream &in)
     {
         in.read((char*)&EmpId, sizeof(EmpId));
@@ -70,6 +110,12 @@ public:
         in.read((char*)&EmpSalary, sizeof(EmpSalary));
     }
 
+////////////////////////////////////////////////////////////////////////
+//
+// Function :  display
+// Description : Display the databse on the console
+//
+//////////////////////////////////////////////////////////////////////// 
     void display() const
     {
         cout << "Id: " << EmpId
@@ -81,11 +127,29 @@ public:
     }
 };
 
+////////////////////////////////////////////////////////////////////////
+//
+// Define Counter 
+// Description : Inherit class Employee to Counter
+//
+//////////////////////////////////////////////////////////////////////// 
 int Employee::Counter = 1;
 
+////////////////////////////////////////////////////////////////////////
+//
+// Class :  MarvellousDBMS
+// Description : Handles querys of database
+//
+//////////////////////////////////////////////////////////////////////// 
 class MarvellousDBMS
 {
 public:
+////////////////////////////////////////////////////////////////////////
+//
+// STL LinkedList
+// Description : For fetching data from the database
+//
+//////////////////////////////////////////////////////////////////////// 
     list<Employee> lobj;
 
     MarvellousDBMS()
@@ -93,6 +157,12 @@ public:
         cout<<"Marvellous DBMS started successfully..."<<endl;
     }
 
+////////////////////////////////////////////////////////////////////////
+//
+// Function :  InsertIntoTable
+// Query : insert into employee values(1,'Amit',21,'Pune',21000)
+//
+//////////////////////////////////////////////////////////////////////// 
     void InsertIntoTable(string name, int age, string address, int salary)
     {
         Employee eobj(name, age, address, salary);
@@ -100,6 +170,12 @@ public:
         cout<<"[DBMS]: New record inserted successfully..."<<endl;
     }
 
+////////////////////////////////////////////////////////////////////////
+//
+// Function :  DisplayTable
+// Description : Display data
+//
+//////////////////////////////////////////////////////////////////////// 
     void DisplayTable()
     {
         if (lobj.empty())
@@ -113,6 +189,12 @@ public:
         }
     }
 
+////////////////////////////////////////////////////////////////////////
+//
+// Function :  BackupTable
+// Description : Gets backup of added querys
+//
+//////////////////////////////////////////////////////////////////////// 
     void BackupTable(const string &filename)
     {
         ofstream out(filename, ios::binary);
@@ -147,9 +229,12 @@ public:
         for (size_t i = 0; i < count; i++)
         {
             Employee e;
-            try {
+            try 
+            {
                 e.ReadBackup(in);
-            } catch (...) {
+            } 
+            catch (...) 
+            {
                 cout << "[DBMS]: Error while reading employee " << i+1 << endl;
                 break;
             }
@@ -172,6 +257,7 @@ public:
         }
         cout << "[DBMS]: Employee with ID " << id << " not found!" << endl;
     }
+
 
     void SearchByName(const string &name)
     {
@@ -204,7 +290,7 @@ public:
 int main()
 {
     MarvellousDBMS mobj;
-    mobj.RestoreTable("emp.dat"); 
+    mobj.RestoreTable("config.dat"); 
 
     int iOption = 0;
 
@@ -239,7 +325,7 @@ int main()
             mobj.DisplayTable();
             break;
         case 3:
-            mobj.BackupTable("emp.dat");
+            mobj.BackupTable("config.dat");
             break;
         case 4:
         {
