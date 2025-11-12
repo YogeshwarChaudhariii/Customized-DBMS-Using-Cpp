@@ -67,22 +67,26 @@ public:
 // Description : Write backup in binary file (config.dat)
 //
 //////////////////////////////////////////////////////////////////////// 
-    void WriteBackup(ofstream &out)
+    void WriteBackup(std::ofstream &out)
     {
+        // Write employee ID, age, and salary directly
         out.write((char*)&EmpId, sizeof(EmpId));
-
-        size_t len = EmpName.size();
-        out.write((char*)&len, sizeof(len));
-        out.write(EmpName.c_str(), len);
-
         out.write((char*)&EmpAge, sizeof(EmpAge));
-
-        len = EmpAddress.size();
-        out.write((char*)&len, sizeof(len));
-        out.write(EmpAddress.c_str(), len);
-
         out.write((char*)&EmpSalary, sizeof(EmpSalary));
+
+        // Helper lambda to write a string
+        auto writeString = [&](const std::string &str) 
+        {
+            size_t len = str.size();
+            out.write((char*)&len, sizeof(len));
+            out.write(str.c_str(), len);
+        };
+
+        // Write name and address
+        writeString(EmpName);
+        writeString(EmpAddress);
     }
+
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -90,24 +94,25 @@ public:
 // Description : Read backup in binary file (config.dat)
 //
 //////////////////////////////////////////////////////////////////////// 
-    void ReadBackup(ifstream &in)
+    void ReadBackup(std::ifstream &in)
     {
+        // Read basic data
         in.read((char*)&EmpId, sizeof(EmpId));
+        in.read((char*)&EmpAge, sizeof(EmpAge));
+        in.read((char*)&EmpSalary, sizeof(EmpSalary));
 
+        // Read EmpName
         size_t len;
         in.read((char*)&len, sizeof(len));
-        string buffer(len, '\0');
+        std::string buffer(len, '\0');
         in.read(&buffer[0], len);
         EmpName = buffer;
 
-        in.read((char*)&EmpAge, sizeof(EmpAge));
-
+        // Read EmpAddress
         in.read((char*)&len, sizeof(len));
         buffer.resize(len);
         in.read(&buffer[0], len);
         EmpAddress = buffer;
-
-        in.read((char*)&EmpSalary, sizeof(EmpSalary));
     }
 
 ////////////////////////////////////////////////////////////////////////
@@ -137,13 +142,14 @@ int Employee::Counter = 1;
 
 ////////////////////////////////////////////////////////////////////////
 //
-// Class :  MarvellousDBMS
+// Class :  QuickDBMS
 // Description : Handles querys of database
 //
 //////////////////////////////////////////////////////////////////////// 
-class MarvellousDBMS
+class QuickDBMS
 {
 public:
+
 ////////////////////////////////////////////////////////////////////////
 //
 // STL LinkedList
@@ -152,9 +158,9 @@ public:
 //////////////////////////////////////////////////////////////////////// 
     list<Employee> lobj;
 
-    MarvellousDBMS()
+    QuickDBMS()
     {
-        cout<<"Marvellous DBMS started successfully..."<<endl;
+        cout<<"Quick DBMS started successfully..."<<endl;
     }
 
 ////////////////////////////////////////////////////////////////////////
@@ -166,7 +172,9 @@ public:
     void InsertIntoTable(string name, int age, string address, int salary)
     {
         Employee eobj(name, age, address, salary);
+
         lobj.push_back(eobj);
+
         cout<<"[DBMS]: New record inserted successfully..."<<endl;
     }
 
@@ -183,6 +191,7 @@ public:
             cout << "[DBMS]: No records found!" << endl;
             return;
         }
+
         for (const auto &emp : lobj)
         {
             emp.display();
@@ -198,6 +207,7 @@ public:
     void BackupTable(const string &filename)
     {
         ofstream out(filename, ios::binary);
+
         size_t count = lobj.size();
         out.write((char*)&count, sizeof(count));
 
@@ -209,6 +219,12 @@ public:
         cout << "[DBMS]: Backup created successfully!" << endl;
     }
 
+////////////////////////////////////////////////////////////////////////
+//
+// Function :  RestoreTable
+// Description : Restores querys
+//
+//////////////////////////////////////////////////////////////////////// 
     void RestoreTable(const string &filename)
     {
         ifstream in(filename, ios::binary);
@@ -244,7 +260,12 @@ public:
         cout << "[DBMS]: Backup restored successfully!" << endl;
     }
 
-
+////////////////////////////////////////////////////////////////////////
+//
+// Function :  SearchById
+// Description : Search the employee by Id
+//
+////////////////////////////////////////////////////////////////////////     
     void SearchById(int id)
     {
         for (auto &emp : lobj)
@@ -258,7 +279,12 @@ public:
         cout << "[DBMS]: Employee with ID " << id << " not found!" << endl;
     }
 
-
+////////////////////////////////////////////////////////////////////////
+//
+// Function :  SearchByName
+// Description : Search the employee by Name
+//
+////////////////////////////////////////////////////////////////////////  
     void SearchByName(const string &name)
     {
         for (auto &emp : lobj)
@@ -272,6 +298,12 @@ public:
         cout << "[DBMS]: Employee with Name " << name << " not found!" << endl;
     }
 
+////////////////////////////////////////////////////////////////////////
+//
+// Function :  DeleteById
+// Description : Delete the employee by Id
+//
+//////////////////////////////////////////////////////////////////////// 
     void DeleteById(int id)
     {
         for (auto it = lobj.begin(); it != lobj.end(); ++it)
@@ -287,9 +319,14 @@ public:
     }
 };
 
+////////////////////////////////////////////////////////////////////////
+// 
+// Entry Point Function (main)
+//
+//////////////////////////////////////////////////////////////////////// 
 int main()
 {
-    MarvellousDBMS mobj;
+    QuickDBMS mobj;
     mobj.RestoreTable("config.dat"); 
 
     int iOption = 0;
@@ -352,7 +389,7 @@ int main()
             break;
         }
         case 20:
-            cout<<"Thank you for using Marvellous DBMS"<<endl;
+            cout<<"Thank you for using Quick DBMS"<<endl;
             break;
         default:
             cout<<"[DBMS]: Invalid option!"<<endl;
