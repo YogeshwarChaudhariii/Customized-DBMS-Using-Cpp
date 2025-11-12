@@ -1,1 +1,97 @@
+About Project:
 
+Project Name: Customized DBMS Using C++ Language.
+Author: Yogeshwar Prakash Chaudhari.
+File Name: Final.cpp
+
+////////////////////////////////////////////////////////////////////////
+//
+// Project Overview:
+//
+////////////////////////////////////////////////////////////////////////
+
+Customized DBMS Using C++ is a mini database management system built entirely using C++ and STL (Standard Template Library).
+It demonstrates how core DBMS operations like insertion, deletion, searching, displaying, and backup/restore can be implemented using object-oriented programming 
+and file handling concepts in C++.
+
+The project acts as a simplified version of a relational database system where employee records are stored, managed, and persisted using binary files (config.dat).
+
+////////////////////////////////////////////////////////////////////////
+//
+// Features:
+//
+////////////////////////////////////////////////////////////////////////
+
+1) Insert Records
+Add new employee records dynamically with unique auto-generated IDs.
+
+2) Display All Records
+View all stored employee data in a formatted table.
+
+3) Search Functionality
+Find employees by ID or Name.
+
+4) Delete Records
+Remove an employee record by specifying their ID.
+
+5) Backup and Restore
+Automatically save and load data to/from a binary file (config.dat) to ensure persistence across sessions.
+
+6) Menu-Driven Interface
+Simple, console-based interface for user interaction.
+
+////////////////////////////////////////////////////////////////////////
+//
+// Project Structure:
+//
+////////////////////////////////////////////////////////////////////////
+
+Customized-DBMS-Using-C++
+│
+├── Final.cpp          # Main source file containing all class definitions and logic
+├── config.dat         # Binary file used for backup & restore (auto-created)
+└── README.md          # Project documentation
+
+////////////////////////////////////////////////////////////////////////
+//
+// Technologies Used:
+//
+////////////////////////////////////////////////////////////////////////
+
+C++ (Object-Oriented Programming)
+STL – list container
+File Handling (Binary I/O)
+Basic Console UI
+
+Classes Overview
+Employee
+
+Handles employee data such as:
+ID (auto-incremented)
+Name
+Age
+Address
+Salary
+
+Includes methods for:
+Writing and reading binary backups
+Displaying employee details
+
+MarvellousDBMS
+Acts as the main DBMS engine.
+
+Implements:
+Insert, Display, Search, Delete operations
+Backup and Restore functionality
+Menu-driven user interface
+
+////////////////////////////////////////////////////////////////////////
+//
+// Future Enhancements:
+//
+//////////////////////////////////////////////////////////////////////// 
+
+Add update record functionality.
+Implement SQL-like query parsing.
+Add sorting and filtering features.
+Build a GUI interface using C++ graphics or Qt.
