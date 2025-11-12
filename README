@@ -13,7 +13,6 @@ File Name: Final.cpp
 Customized DBMS Using C++ is a mini database management system built entirely using C++ and STL (Standard Template Library).
 It demonstrates how core DBMS operations like insertion, deletion, searching, displaying, and backup/restore can be implemented using object-oriented programming 
 and file handling concepts in C++.
-
 The project acts as a simplified version of a relational database system where employee records are stored, managed, and persisted using binary files (config.dat).
 
 ////////////////////////////////////////////////////////////////////////
