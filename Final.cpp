@@ -314,9 +314,10 @@ public:
 ////////////////////////////////////////////////////////////////////////  
     void SearchById(int id)
     {
-        if (id == '\0')
+        if (id <= 0)
         {
             cout << "[DBMS]: Employee ID not found..!" << endl;
+
             exit(EXIT_FAILURE);
         }
         
@@ -366,9 +367,10 @@ public:
 //////////////////////////////////////////////////////////////////////// 
     void DeleteById(int id)
     {
-        if (id == '\0')
+        if (id <= 0)
         {
             cout << "[DBMS]: Employee ID not found..!" << endl;
+
             exit(EXIT_FAILURE);
         }
         
