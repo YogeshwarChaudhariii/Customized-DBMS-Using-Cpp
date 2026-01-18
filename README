@@ -90,7 +90,7 @@ Menu-driven user interface
 //
 //////////////////////////////////////////////////////////////////////// 
 
-Add update record functionality.
+Add update record functionality..
 Implement SQL-like query parsing.
 Add sorting and filtering features.
 Build a GUI interface using C++ graphics or Qt.
